@@ -1,10 +1,14 @@
 from app import app
 from flask import render_template, request, redirect, url_for, flash
-
+import datetime
 
 ###
 # Routing for your application.
 ###
+
+def format_date_joined(date):
+    """Format the date as 'Month, Year'."""
+    return date.strftime("%B, %Y")
 
 @app.route('/')
 def home():
@@ -15,8 +19,23 @@ def home():
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="Kayla Byfield")
 
+@app.route('/profile/')
+def profile():
+    """Render the user's profile page."""
+    user_info = {
+        "name": "Kayla Byfield",
+        "username": "kbyfield",
+        "location": "St.Catherine, Jamaica",
+        "date_joined": format_date_joined(datetime.date(2025,2,25)),
+        "bio": "A creative young woman who enjoys designing and developing websites. Feel free to contact me if you're interested in collaborating on a project.",
+        "posts": 23,
+        "following": 76,
+        "followers": 225,
+        "profile_img": url_for('static', filename='PfpForLab2.jpg'),
+    }
+    return render_template('profile.html', user=user_info)
 
 ###
 # The functions below should be applicable to all Flask apps.
